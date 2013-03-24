@@ -56,7 +56,7 @@ To allow ssh from only a specific IP (recommended) `ufw allow from 85.123.432.22
 
 Turn on the firewall: `ufw disable && ufw enable` and confirm with `ufw status`.
 
-## Packages
+## Package
 
 ```
 apt-get install apache2
@@ -77,21 +77,22 @@ ln -s /etc/apaches2/mods-available/ssl.conf /etc/apaches2/mods-enabled/ssl.conf
 
 Need to listen on port 443, so edit `/etc/apache2/ports.conf` and add `NameVirtualHost *:443`
 
-Remove password from server key (unless you enjoy entering the cert password everytime you restart apache!)
-
-```
-cd /etc/apache2/certs
-cp server.key server.key.backup
-openssl rsa -in server.key.backup -out server.key
-```
-
-Configure virtual host
+Configure virtual host (see `/etc/apache/sites-available` for defaults)
 
 ```
 <VirtualHost *:443>
         SSLEngine on
-        SSLCertificateFile /etc/apache2/ssl/certs/default/server.crt
-        SSLCertificateKeyFile /etc/apache2/ssl/certs/default/server.key
+        SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
+        SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+        SSLCertificateChainFile /etc/ssl/certs/authority.crt
         DocumentRoot /var/www
 </VirtualHost>
+```
+
+Once you've installed your own signed SSL cert, remove password from server key (unless you enjoy entering the cert password everytime you restart apache!)
+
+```
+cd /etc/apache2/ssl/certs
+cp server.key server.key.backup
+openssl rsa -in server.key.backup -out server.key
 ```
