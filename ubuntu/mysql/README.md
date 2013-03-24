@@ -32,13 +32,13 @@ adduser foo sudo
 ```
 127.0.0.1       localhost localhost.localdomain
 
-95.123.456.789  apache-01.domain.com apache-01
-10.123.456.7    apache-01.domain.com apache-01
+95.123.456.789  mysql-01.domain.com mysql-01
+10.123.456.7    mysql-01.domain.com mysql-01
 ```
 
 ## Check hostname
 
-`hostname` should give short name, apache-01. `hostname -f` should give FQDN `apache-01.domain.com`.
+`hostname` should give short name, mysql-01. `hostname -f` should give FQDN `mysql-01.domain.com`.
 
 ## Firewall
 
