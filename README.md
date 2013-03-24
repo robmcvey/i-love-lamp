@@ -1,5 +1,3 @@
-# I ♥ LAMP
-
 ![](https://raw.github.com/robmcvey/i-love-lamp/master/lamp.png)
 
 A collection of guides and references for configuring Apahce, MySQL and Sendmail servers.
