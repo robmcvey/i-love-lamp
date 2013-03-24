@@ -13,7 +13,7 @@ apt-get upgrade
 
 ## Set timezone (interactive)
 
-`dpkg-reconfigure tzdata
+`dpkg-reconfigure tzdata`
 
 ## Sync the clock
 
