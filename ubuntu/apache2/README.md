@@ -52,7 +52,7 @@ ufw allow www
 ufw allow https
 ```
 
-To allow ssh from only a specific IP (recommended) `ufw allow from 85.123.432.22 to any port 22`.
+To allow ssh from only a specific IP (recommended) use `ufw allow from 85.123.432.22 to any port 22` instead.
 
 Turn on the firewall: `ufw disable && ufw enable` and confirm with `ufw status`.
 

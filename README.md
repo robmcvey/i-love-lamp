@@ -6,4 +6,4 @@ These are for my own personal reference, so use them at your own risk. Hopefully
 
 I mainly favour Ubuntu, and use the Rackspace Cloud infastructure.
 
-Most of the packages described [del]will[/del] should be available on your flavour of Linux, and can be installed the equivalent of `apt-get` (e.g. `yum` on CentOS).
+Most of the packages described [del]will[/del] should be available on your flavour of Linux, and can be installed with your distributions equivalent of `apt-get` (e.g. `yum` on CentOS).

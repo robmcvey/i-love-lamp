@@ -51,7 +51,7 @@ ufw allow ssh
 ufw allow from 10.123.4.567 to any port 3306
 ```
 
-To allow ssh from only a specific IP (recommended) `ufw allow from 85.123.432.22 to any port 22`.
+To allow ssh from only a specific IP (recommended) use `ufw allow from 85.123.432.22 to any port 22` instead.
 
 Turn on the firewall: `ufw disable && ufw enable` and confirm with `ufw status`.
 
@@ -61,7 +61,7 @@ Turn on the firewall: `ufw disable && ufw enable` and confirm with `ufw status`.
 
 ## BindAddress
 
-This server is intended to be a stand-alone MySQl, and by default only localhost can connect. In the `my.cnf` file comment out the folloing line:
+This server is intended to be a stand-alone MySQl server, and by default only localhost can connect. To change this, edit the `/etc/mysql/my.cnf` file comment out the folloing line:
 
 ```
 #
@@ -72,7 +72,7 @@ This server is intended to be a stand-alone MySQl, and by default only localhost
 
 ## Charset
 
-It seems on Ubuntu some charsets do not defaul to UTF8, no idea why. But we can set these in `my.cnf`
+It seems some charsets do not default to UTF8, no idea why. But we can set these in `my.cnf`
 
 ```
 [mysqld]
