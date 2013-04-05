@@ -100,6 +100,8 @@ The `%` allows from <strong>any</strong> host, although we have a firewall it's 
 
 ## Basic tuning
 
+### innodb_buffer_pool_size
+
 Regardless of the resources availble, MySQL will only use `128M` of for its `innodb_buffer_pool_size` this is possibly the most basic of changes to make which will radically improve performace.
 
 If this server is only going to be used for MySQL, allowing for 60%-70% of the free memory to be used is a good start, but you can change this later as per your requirements.
@@ -124,3 +126,17 @@ query_cache_size        = 128M
 ```
 
 Restart MySQL and you will now see the changes with `SHOW variables LIKE 'inno%'` etc.
+
+### max_connections
+
+To see the settings of the current setup, or the existing server, the following queries are useful:
+
+Show current setting: `show variables like "max_connections";`
+
+Show total number of current connections : `show status like 'Conn%';`
+
+Show the acitve MySQL users and their status: `SHOW FULL PROCESSLIST;`
+
+From MySQL:
+
+<blockquote>The maximum number of connections MySQL can support depends on the quality of the thread library on a given platform, the amount of RAM available, how much RAM is used for each connection, the workload from each connection, and the desired response time. <br/><br/>Linux or Solaris should be able to support at 500 to 1000 simultaneous connections routinely and as many as 10,000 connections if you have many gigabytes of RAM available and the workload from each is low or the response time target undemanding.</blockquote>
