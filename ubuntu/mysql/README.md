@@ -98,6 +98,15 @@ Verify users priviledges with `SHOW GRANTS FOR 'foo'@'%';` and use `FLUSH PRIVIL
 
 The `%` allows from <strong>any</strong> host, although we have a firewall it's safer to set this to a specific host/ip
 
+## Apparmour
+
+Causing restart every morning ??
+
+```
+ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
+apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld 
+```
+
 ## Basic tuning
 
 ### innodb_buffer_pool_size
