@@ -5,6 +5,7 @@
 DATA_DIR=/var/lib/mysql
 FULL_BACKUP_DIR=/var/tmp/backups/mysql/full
 INCR_BACKUP_DIR=/var/tmp/backups/mysql/incremental
+TODAYS_DATE=$(date +%F_%T)
 
 # Errors
 error() {
@@ -34,7 +35,7 @@ then
 	xtrabackup --backup --target-dir=$FULL_BACKUP_DIR
 
 	# Done!
-	echo "Done!"
+	echo "Done! $TODAYS_DATE"
 
 elif [ $act == "inc" ]
 then
@@ -56,6 +57,9 @@ then
 	# Run incremental backup off the full backup
 	echo "Running $act backup at $HOUR HR of $DATA_DIR to $INCR_BACKUP_HOUR_DIR based on $FULL_BACKUP_DIR"
 	xtrabackup --backup --target-dir=$INCR_BACKUP_HOUR_DIR --incremental-basedir=$FULL_BACKUP_DIR
+
+	# Done!
+	echo "Done! $TODAYS_DATE"
 
 else
 	error "Invalid option. Use \"full\" or \"inc\" "
