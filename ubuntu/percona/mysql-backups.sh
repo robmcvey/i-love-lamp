@@ -43,7 +43,7 @@ then
 	INCR_BACKUP_HOUR_DIR=$INCR_BACKUP_DIR/$HOUR
 
 	# Does it already exist? Ditch it and start again...
-	if [-d $INCR_BACKUP_HOUR_DIR]
+	if [ -d $INCR_BACKUP_HOUR_DIR ]
 	then 
 		echo "$INCR_BACKUP_HOUR_DIR exists, removing..."
 		rm -rf $INCR_BACKUP_HOUR_DIR
