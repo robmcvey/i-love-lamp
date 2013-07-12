@@ -1,2 +1,18 @@
-# Current configure script to compile PHP 5.4.6 on Mac OSX
-./configure --with-apxs2=/usr/sbin/apxs --with-pspell=/usr/local/Cellar/aspell/0.60.6.1 --with-mcrypt=/usr/local/Cellar/mcrypt/2.5.8 --with-curl=/usr/local/Cellar/curl/7.31.0 --with-gd --with-jpeg-dir=/usr/local/Cellar/jpeg/8d --with-png-dir=/usr/local/Cellar/libpng/1.5.14 --with-mysqli --with-pdo-mysql --enable-mbstring --with-freetype-dir=/usr/local/Cellar/freetype/2.4.11 --enable-gd-native-ttf
+# Current configure script to compile PHP 5.4.9 on Mac OS X 10.6.8
+./configure \
+--with-apxs2=/usr/sbin/apxs \
+--with-pspell=/usr/local/Cellar/aspell/0.60.6.1 \
+--with-mcrypt=/usr/local/Cellar/mcrypt/2.5.8 \
+--with-curl=/usr/local/Cellar/curl/7.31.0 \
+--with-mysql \
+--with-mysqli \
+--with-pdo-mysql \
+--enable-mbstring \
+--with-gd \
+--with-jpeg-dir=/usr/local/Cellar/jpeg/8d \
+--with-png-dir=/usr/local/Cellar/libpng/1.5.14 \
+--with-zlib-dir=/usr/local/Cellar/zlib/1.2.8 \
+--with-freetype-dir=/usr/local/Cellar/freetype/2.4.11 \
+--enable-gd-native-ttf \
+--enable-mbstring \
+--with-openssl
