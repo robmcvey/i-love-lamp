@@ -1,6 +1,8 @@
 # Replication
 
-These guide is my own reference for configuring, managing and rescuing from a failover type scenario.
+These guide is my own reference for configuring, managing and rescuing from a failover type scenario with MySQL replication.
+
+Note: It assumes InnoDB engine is used!
 
 ## Master
 
@@ -8,19 +10,25 @@ Setting up replication requires one instance of MySQL to be a "master". If alrea
 
 In `/etc/mysql/my.cnf` you'll need to add or uncomment the following:
 
-```
+```shell
 [mysqld]
 
+# This option is common to both master and slave replication servers, to identify themselves uniquely.
 server-id=1
 
-binlog-format   = mixed
+# Causes logging to use mixed format. 
+binlog-format=mixed
 
+# Enable binary logging. The server logs all statements that change data
 log-bin=mysql-bin
 
+# Specifiy our data directory
 datadir=/var/lib/mysql
 
+# When the value is 1, the log buffer is written out to the log file at each transaction commit
 innodb_flush_log_at_trx_commit=1
 
+# MySQL server synchronizes its binary log to disk after writing to the binary log
 sync_binlog=1
 ```
 
