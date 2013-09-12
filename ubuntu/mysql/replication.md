@@ -8,7 +8,7 @@ Setting up replication requires one instance of MySQL to be a "master". If alrea
 
 In `/etc/mysql/my.cnf` you'll need to add or uncomment the following:
 
-```bash
+```
 [mysqld]
 
 server-id=1
@@ -26,7 +26,7 @@ sync_binlog=1
 
 MySQL can then be restarted, and you now have a master database server.
 
-```txt
+```
 mysql> show master status;
 +------------------+----------+--------------+------------------+
 | File             | Position | Binlog_Do_DB | Binlog_Ignore_DB |
