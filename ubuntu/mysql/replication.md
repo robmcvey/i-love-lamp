@@ -68,3 +68,18 @@ mysqldump -u user -pPassword databaseName \
 -A \
 > /path/to/backup.sql
 ```
+
+Once, complete you'll have the bin log file and bin log position included in the file. Take note of these, you'll need them when setting up the slave.
+
+```bash
+$ head -50 /path/to/backup.sql
+-- MySQL dump 10.13
+-- Server version	5.5.32-log
+
+--
+-- Position to start replication or point-in-time recovery from
+--
+
+-- CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000002', MASTER_LOG_POS=107;
+
+```
