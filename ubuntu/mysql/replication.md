@@ -91,3 +91,43 @@ $ head -50 /path/to/backup.sql
 -- CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000002', MASTER_LOG_POS=107;
 
 ```
+
+At this point, this guide assumes you have a second MySQL instance running which is to be used as a slave. 
+
+First, lets send over our dump file:
+
+```bash
+$ scp /path/to/backup.sql user@<<slave ip>>:/tmp
+```
+
+While thaht's transfering, let's log in to the slave.
+
+## Slave
+
+We also need to edit our to to configure our slave to behave as such.
+
+```bash
+[mysqld]
+
+server-id=101 
+
+binlog-format=mixed
+
+log_bin=mysql-bin
+
+relay-log=mysql-relay-bin
+
+log-slave-updates=1
+
+read-only=1 ????
+
+```
+
+
+## Failover scenario
+
+http://dev.mysql.com/doc/refman/5.5/en/replication-solutions-switch.html
+
+
+
+
