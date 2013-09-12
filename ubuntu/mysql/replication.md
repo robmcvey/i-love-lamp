@@ -10,7 +10,7 @@ Setting up replication requires one instance of MySQL to be a "master". If alrea
 
 In `/etc/mysql/my.cnf` you'll need to add or uncomment the following:
 
-```shell
+```bash
 [mysqld]
 
 # This option is common to both master and slave replication servers, to identify themselves uniquely.
