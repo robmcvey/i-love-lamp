@@ -45,11 +45,13 @@ GRANT REPLICATION SLAVE ON *.* TO replicant@<<slave-server-ip>> IDENTIFIED BY '<
 
 Taking a dump of the current master is done with `mysqldump` with a few specific options.
 
-`mysqldump -u user -pPassword databaseName \
+```
+mysqldump -u user -pPassword databaseName \
 -v \ 						# verbose
 --skip-lock-tables \		# Dont lock all the tables
 --single-transaction \		# Esures data accross all tables are at the same point in time
 --flush-logs \ 				# Flush logs file in server before starting dump
 --hex-blob \				# Dump binary strings (BINARY, VARBINARY, BLOB) in hexadecimal format
 --master-data=2 \			# This causes the binary log position and filename to be appended to the output
-> /path/to/backup.sql`
+> /path/to/backup.sql
+```
