@@ -158,14 +158,44 @@ MASTER_USER='replicant', \
 MASTER_PASSWORD='<<slave-server-password>>', \
 MASTER_LOG_FILE='<<value from above>>', \
 MASTER_LOG_POS=<<value from above>>;
-START SLAVE;
+```
 
+We can now start up our slave. It will automatically check the bin log position of master and get any updates since we took our original dump.
+
+```
+START SLAVE;
+```
+
+This can be verified by viewing slave status:
+
+```
 SHOW SLAVE STATUS \G
 ```
 
-If all is well, Last_Error will be blank, and Slave_IO_State will report “Waiting for master to send event”.
+If all is well, Last_Error will be blank, and Slave_IO_State will report "Waiting for master to send event". You'll also notice if you compare the `Exec_Master_Log_Pos` it will match the current posision of our master.
+
+```
+*************************** 1. row ***************************
+Slave_IO_State: Waiting for master to send event
+Master_Host: <<master-server-ip>>
+Master_User: replicant
+Master_Port: 3306
+Connect_Retry: 60
+Master_Log_File: mysql-bin.000002
+Read_Master_Log_Pos: 1044
+Relay_Log_File: mysql-relay-bin.000002
+Relay_Log_Pos: 1190
+Exec_Master_Log_Pos: 1510
+Relay_Master_Log_File: mysql-bin.000002
+Last_Error:
+
+...
+
+```
 
 ## Failover scenario
+
+Be afraid.
 
 http://dev.mysql.com/doc/refman/5.5/en/replication-solutions-switch.html
 
