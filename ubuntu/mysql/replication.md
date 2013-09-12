@@ -55,6 +55,7 @@ We'll then start our slave and it will do the rest, getting all transactions sin
 * `--flush-logs` Flush logs file in server before starting dump
 * `--hex-blob` Dump binary strings (BINARY, VARBINARY, BLOB) in hexadecimal format
 * `--master-data=2` This causes the binary log position and filename to be appended to the output
+* `-A` Take all databases in the dump
 
 ```
 mysqldump -u user -pPassword databaseName \
@@ -64,5 +65,6 @@ mysqldump -u user -pPassword databaseName \
 --flush-logs \
 --hex-blob \
 --master-data=2 \
+-A \
 > /path/to/backup.sql
 ```
