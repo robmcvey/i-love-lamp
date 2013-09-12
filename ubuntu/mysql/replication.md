@@ -117,12 +117,53 @@ log_bin=mysql-bin
 
 relay-log=mysql-relay-bin
 
-log-slave-updates=1
+#log-slave-updates=0
 
-read-only=1 ????
+#read-only=0
 
 ```
 
+### Slave options explained
+
+This guide assumes you want to be prepared for the scenario of having to promote your slave to become the new master. As such, there are two options that have been ommited which might otherwise be used for a typical "read only" slave;
+
+`log-slave-updates`
+
+<blockquote>
+Because updates received by a slave from the master are not logged in the binary log unless --log-slave-updates is specified, the binary log on each slave is empty initially. If for some reason MySQL Master becomes unavailable, you can pick one of the slaves to become the new master.
+
+The reason for running the slave without --log-slave-updates is to prevent slaves from receiving updates twice in case you cause one of the slaves to become the new master	
+</blockquote>
+
+`read-only`
+
+Our setup also assumes no other database (or web client) is connected to our slaves, so we can ignore the read only option. This will also mean we can switch to writing to any of our slaves in the event of a failover as fast as possible (opinions on this welcome, this is currently my best guess!)
+
+### Restore data to slave
+
+By now, our dump fiole should have transfered accross and will be in `/tmp`. Let's restore this on the slave:
+
+```
+mysql -u root -p < /tmp/backup.sql
+```
+
+Our slave now contains all the databases and records from the point in time the dump was taken.
+
+We can now instruct our slave to begin listening to our master server, using the bin log file and position we noted down earlier. This tells the slave where to continue replicating from.
+
+```
+CHANGE MASTER TO \
+MASTER_HOST='<<master-server-ip>>', \
+MASTER_USER='replicant', \
+MASTER_PASSWORD='<<slave-server-password>>', \
+MASTER_LOG_FILE='<<value from above>>', \
+MASTER_LOG_POS=<<value from above>>;
+START SLAVE;
+
+SHOW SLAVE STATUS \G
+```
+
+If all is well, Last_Error will be blank, and Slave_IO_State will report “Waiting for master to send event”.
 
 ## Failover scenario
 
