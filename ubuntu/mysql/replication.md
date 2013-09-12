@@ -43,7 +43,11 @@ CREATE USER replicant@<<slave-server-ip>>;
 GRANT REPLICATION SLAVE ON *.* TO replicant@<<slave-server-ip>> IDENTIFIED BY '<<choose-a-long-password>>';
 ```
 
-Taking a dump of the current master is done with `mysqldump` with a few specific options. Typically, a mysql dump would be used to prepare a slave in the <b>exact</b> state the master is in before commencing replication. However, this means no writes can take place on the master while the dump is transfered and restored on the slave. We don't want or can't afford this downtime (which may be significant if a large database) so we'll also dump the bin log positions, meaning our new slave will know exactly where it needs to catch up from. We'll then start our slave and it will do the rest, getting all transactions since the initial dump was taken and eventually synchronizing itself. 
+Taking a dump of the current master is done with `mysqldump` with a few specific options. Typically, a mysql dump would be used to prepare a slave in the <b>exact</b> state the master is in before commencing replication. However, this means no writes can take place on the master while the dump is transfered and restored on the slave. 
+
+We don't want or can't afford this downtime (which may be significant if a large database) so we'll also dump the bin log positions, meaning our new slave will know exactly where it needs to catch up from. 
+
+We'll then start our slave and it will do the rest, getting all transactions since the initial dump was taken and eventually synchronizing itself. 
 
 * `-v` Be verbose
 * `--skip-lock-tables` Dont lock all the tables
