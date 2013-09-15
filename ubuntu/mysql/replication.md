@@ -51,6 +51,7 @@ We also need to add a slave user on our master. This allows our slave(s) to conn
 ```
 CREATE USER 'replicant'@'<<slave-server-ip>>';
 GRANT REPLICATION SLAVE ON *.* TO 'replicant'@'<<slave-server-ip>>' IDENTIFIED BY '<<choose-a-long-password>>';
+FLUSH PRIVILEGES;
 ```
 
 Taking a dump of the current master is done with `mysqldump` with a few specific options. Typically, a mysql dump would be used to prepare a slave in the <b>exact</b> state the master is in before commencing replication. However, this means no writes can take place on the master while the dump is transfered and restored on the slave. 
