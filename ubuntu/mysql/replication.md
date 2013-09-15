@@ -69,7 +69,7 @@ We'll then start our slave and it will do the rest, getting all transactions sin
 * `-A` Take all databases in the dump
 
 ```
-mysqldump -u user -pPassword databaseName \
+mysqldump -u user -pPassword \
 -v \
 --skip-lock-tables \
 --single-transaction \
