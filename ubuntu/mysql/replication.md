@@ -44,6 +44,8 @@ mysql> show master status;
 1 row in set (0.00 sec)
 ```
 
+### Create replication user
+
 We also need to add a slave user on our master. This allows our slave(s) to connect from, and only from, the IPs defined in the `GRANT` statement used to create said user.
 
 ```
@@ -117,9 +119,7 @@ log_bin=mysql-bin
 
 relay-log=mysql-relay-bin
 
-#log-slave-updates=0
-
-#read-only=0
+log-slave-updates=0
 
 ```
 
@@ -175,6 +175,7 @@ SHOW SLAVE STATUS \G
 If all is well, Last_Error will be blank, and Slave_IO_State will report "Waiting for master to send event". You'll also notice if you compare the `Exec_Master_Log_Pos` it will match the current posision of our master.
 
 ```
+mysql> show slave status\G
 *************************** 1. row ***************************
 Slave_IO_State: Waiting for master to send event
 Master_Host: <<master-server-ip>>
@@ -195,10 +196,67 @@ Last_Error:
 
 ## Failover scenario
 
-Be afraid.
+For this section we'll assume there is only one master, with a single slave. 
+
+Replication was running fine then BOOM. The master is dead.
+
+### Promoting the slave
+
+If you view the status of the slave it will be trying to connect to the failed master:
+
+```
+mysql> show slave status\G
+*************************** 1. row ***************************
+Slave_IO_State: Reconnecting after a failed master event read
+Slave_IO_Running: Connecting
+Slave_SQL_Running: Yes
+Last_IO_Errno: 2003
+Last_IO_Error: error reconnecting to master 'replicant@<<master-server-ip>>' - retry-time: 60  retries: 86400
+```
+
+We need to stop replication, promote the slave to become our new master then configure our application to begin writing to it.
+
+So, on the slave being promoted to master, issue `STOP SLAVE` and `RESET MASTER`.
+
+Our application can now continue operating (i.e. edit your app's database configuration). From here you can then begin the replication configuration as described above, taking a SQL dump with log file/position information and building a new slave machine.
+
+### Multiple slaves
+
+If there were multiple slaves running when the old master failed, they too would be in a `error reconnecting` state. Shut down your web application while a new master is configured and replication resumed. 
+
+<b>You don't want any database writes occuring ANYWHERE during this scenario!</b>
+
+First, make sure that all slaves have processed any statements in their relay log. On each slave, issue `STOP SLAVE IO_THREAD` and check the output of `SHOW PROCESSLIST` until you see `Has read all relay log`.
+
+If not all updates have been processed, you'd choose the most up to date slave to promote. On the machine you choose to become the new master, issue `RESET MASTER` and get the current log file and position info:
+
+```
+mysql> SHOW MASTER STATUS;
++------------------+----------+--------------+------------------+
+| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB |
++------------------+----------+--------------+------------------+
+| mysql-bin.000003 |     4324 |              |                  |
++------------------+----------+--------------+------------------+
+1 row in set (0.00 sec)
+```
+
+Ensure the new master has a replication user and password setup to allow connections from the other slaves (see "Create replication user" above).
+
+Then, on the remaining slaves, issue the `CHANGE MASTER TO` command with the new log file and position info of the new master:
+
+```
+CHANGE MASTER TO \
+MASTER_HOST='<<new-master-server-ip>>', \
+MASTER_USER='replicant', \
+MASTER_PASSWORD='<<slave-server-password>>', \
+MASTER_LOG_FILE='mysql-bin.000003', \
+MASTER_LOG_POS=4324;
+```
+
+After checking `show slave status` you're ready to go. Start your application with writes configured to go to the new master.
+
+## References
 
 http://dev.mysql.com/doc/refman/5.5/en/replication-solutions-switch.html
 
-
-
-
+http://plusbryan.com/mysql-replication-without-downtime
