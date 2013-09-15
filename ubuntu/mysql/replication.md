@@ -49,8 +49,8 @@ mysql> show master status;
 We also need to add a slave user on our master. This allows our slave(s) to connect from, and only from, the IPs defined in the `GRANT` statement used to create said user.
 
 ```
-CREATE USER replicant@<<slave-server-ip>>;
-GRANT REPLICATION SLAVE ON *.* TO replicant@<<slave-server-ip>> IDENTIFIED BY '<<choose-a-long-password>>';
+CREATE USER 'replicant'@'<<slave-server-ip>>';
+GRANT REPLICATION SLAVE ON *.* TO 'replicant'@'<<slave-server-ip>>' IDENTIFIED BY '<<choose-a-long-password>>';
 ```
 
 Taking a dump of the current master is done with `mysqldump` with a few specific options. Typically, a mysql dump would be used to prepare a slave in the <b>exact</b> state the master is in before commencing replication. However, this means no writes can take place on the master while the dump is transfered and restored on the slave. 
