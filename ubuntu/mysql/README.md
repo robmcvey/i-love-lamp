@@ -87,7 +87,9 @@ After a restart, check these with `SHOW variables LIKE 'char%'` and `SHOW variab
 
 ## Users
 
-Add any users we require for remote connections:
+Add any users we require for remote connections. Remember the following!
+
+<blockquote>MySQL permits one extra connection on top of the max_connections limit which is reserved for the database user having SUPER privilege in order to diagnose connection problems. Normally the administrator user has this SUPER privilege. You should avoid granting SUPER privilege to app users.</blockquote>
 
 ```
 CREATE USER 'foo'@'%' IDENTIFIED BY 'password';
