@@ -15,4 +15,6 @@
 --with-freetype-dir=/usr/local/Cellar/freetype/2.4.11 \
 --enable-gd-native-ttf \
 --enable-mbstring \
---with-openssl
+--with-openssl \
+--disable-memcached-session \
+--disable-memcache-session
