@@ -109,7 +109,7 @@ ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
 apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld 
 ```
 
-## Basic tuning
+## Basic MySQL tuning
 
 ### innodb_buffer_pool_size
 
@@ -151,3 +151,60 @@ Show the acitve MySQL users and their status: `SHOW FULL PROCESSLIST;`
 From MySQL:
 
 <blockquote>The maximum number of connections MySQL can support depends on the quality of the thread library on a given platform, the amount of RAM available, how much RAM is used for each connection, the workload from each connection, and the desired response time. <br/><br/>Linux or Solaris should be able to support at 500 to 1000 simultaneous connections routinely and as many as 10,000 connections if you have many gigabytes of RAM available and the workload from each is low or the response time target undemanding.</blockquote>
+
+## Basic OS tuning
+
+Some fundamental settings when running a standalone MySQL server on Linux
+
+### Filesystem
+
+Reference http://www.mysqlperformanceblog.com/2009/01/30/linux-schedulers-in-tpcc-like-benchmark/
+
+* ext4 (or xfs), mount with noatime
+* Scheduler – use deadline or noop
+
+```shell
+# echo deadline >/sys/block/sda/queue/scheduler
+add "elevator=deadline" to grub.conf
+```
+
+### Memory
+
+Reference http://www.mysqlperformanceblog.com/2013/12/07/linux-performance-tuning-tips-mysql/
+
+* Swappiness
+
+```shell
+# echo 0 > /proc/sys/vm/swappiness
+add "vm.swappiness = 0" to /etc/sysctl.conf
+```
+
+* NUMA. Set numa interleave all
+
+```shell
+numactl --interleave=all
+```
+
+### CPU
+
+Make sure there is no powersave mode enabled. Check `/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor` and make sure it is not `ondemand`.
+
+Check `/proc/cpuinfo` and compare cpu MHz number to what is listed under the "model name". Disable the "ondemand" if it is running.
+
+```shell
+$ ps ax| grep kondemand|wc -l 
+65 
+
+$ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 
+ondemand
+```
+
+Does the MHz match the CPU's modelname fequency? 	
+
+```shell
+/proc/cpuinfo: model name : Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz
+
+cpu MHz : 1200.000
+```
+
+In this case we will need to disable "ondemand".
