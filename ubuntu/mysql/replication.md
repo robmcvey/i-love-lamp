@@ -22,6 +22,9 @@ binlog-format=mixed
 # Enable binary logging. The server logs all statements that change data
 log-bin=mysql-bin
 
+# Only keep logs for 1 week as not to fill disk!
+expire_logs_days=7
+
 # Specifiy our data directory
 datadir=/var/lib/mysql
 
