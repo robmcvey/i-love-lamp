@@ -77,7 +77,6 @@ It seems some charsets do not default to UTF8, no idea why. But we can set these
 ```
 [mysqld]
 
-max_allowed_packet=64M
 collation-server = utf8_unicode_ci
 init-connect='SET NAMES utf8'
 character-set-server = utf8
