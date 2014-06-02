@@ -1,0 +1,13 @@
+./configure \
+--with-apxs2=/usr/sbin/apxs \
+--with-pspell \
+--with-mcrypt \
+--with-curl \
+--with-mysql \
+--with-mysqli \
+--with-pdo-mysql \
+--enable-mbstring \
+--with-gd \
+--enable-gd-native-ttf \
+--enable-mbstring \
+--with-openssl
