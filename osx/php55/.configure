@@ -1,4 +1,5 @@
 ./configure \
+--with-libdir=lib \
 --with-apxs2=/usr/sbin/apxs \
 --with-pspell \
 --with-mcrypt \
@@ -8,10 +9,8 @@
 --with-pdo-mysql \
 --enable-mbstring \
 --with-gd \
---with-jpeg-dir=/usr/local/Cellar/jpeg/8d \
---with-png-dir=/usr/local/Cellar/libpng/1.6.10 \
---with-zlib-dir=/usr/local/Cellar/zlib/1.2.8 \
---with-freetype-dir=/usr/local/Cellar/freetype/2.4.11 \
+--with-freetype-dir \
 --enable-gd-native-ttf \
 --enable-mbstring \
---with-openssl
+--with-openssl \
+--enable-opcache=no
