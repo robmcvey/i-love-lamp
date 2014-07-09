@@ -13,4 +13,5 @@
 --enable-gd-native-ttf \
 --enable-mbstring \
 --with-openssl \
---enable-opcache=no
+--enable-opcache=no \
+--with-zip=/usr/local/Cellar/libzzip/0.13.62
