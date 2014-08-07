@@ -7,11 +7,11 @@
 --with-mysql \
 --with-mysqli \
 --with-pdo-mysql \
---enable-mbstring \
 --with-gd \
 --with-freetype-dir \
 --enable-gd-native-ttf \
 --enable-mbstring \
 --with-openssl \
 --enable-opcache=no \
---with-zip=/usr/local/Cellar/libzzip/0.13.62
+--with-jpeg-dir=/usr/local/Cellar/jpeg/8d \
+--with-png-dir=/usr/local/Cellar/libpng/1.6.10
