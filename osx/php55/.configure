@@ -1,14 +1,19 @@
 ./configure \
 --with-apxs2=/usr/sbin/apxs \
+--with-libdir=lib \
 --with-pspell \
 --with-mcrypt \
 --with-curl \
 --with-mysql \
 --with-mysqli \
 --with-pdo-mysql \
---enable-mbstring \
 --with-gd \
+--with-freetype-dir \
 --enable-gd-native-ttf \
 --enable-mbstring \
 --with-openssl \
---enable-intl
+--enable-opcache=no \
+--enable-intl \
+--with-jpeg-dir=/usr/local/Cellar/jpeg/8d \
+--with-png-dir=/usr/local/Cellar/libpng/1.6.10 \
+--with-icu-dir=/usr/local/Cellar/icu4c/52.1
