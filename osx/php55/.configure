@@ -10,4 +10,5 @@
 --with-gd \
 --enable-gd-native-ttf \
 --enable-mbstring \
---with-openssl
+--with-openssl \
+--enable-intl
