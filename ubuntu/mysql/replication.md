@@ -16,23 +16,14 @@ In `/etc/mysql/my.cnf` you'll need to add or uncomment the following:
 # This option is common to both master and slave replication servers, to identify themselves uniquely.
 server-id=1
 
-# Causes logging to use mixed format. 
-binlog-format=mixed
-
 # Enable binary logging. The server logs all statements that change data
 log-bin=mysql-bin
+log_bin = /var/log/mysql/mysql-bin.log
 
-# Only keep logs for 1 week as not to fill disk!
-expire_logs_days=7
+# Only keep logs for 1 week, max 100mb per file as not to fill disk!
+expire_logs_days = 7
+max_binlog_size = 100M
 
-# Specifiy our data directory
-datadir=/var/lib/mysql
-
-# When the value is 1, the log buffer is written out to the log file at each transaction commit
-innodb_flush_log_at_trx_commit=1
-
-# MySQL server synchronizes its binary log to disk after writing to the binary log
-sync_binlog=1
 ```
 
 MySQL can then be restarted, and you now have a master database server.
@@ -79,7 +70,7 @@ mysqldump -u user -pPassword \
 --flush-logs \
 --hex-blob \
 --master-data=2 \
--A \
+--databases {my-database} \
 > /path/to/backup.sql
 ```
 
@@ -115,33 +106,9 @@ We also need to edit our to to configure our slave to behave as such.
 ```bash
 [mysqld]
 
-server-id=101 
-
-binlog-format=mixed
-
-log_bin=mysql-bin
-
-relay-log=mysql-relay-bin
-
-log-slave-updates=0
+server-id=101
 
 ```
-
-### Slave options explained
-
-This guide assumes you want to be prepared for the scenario of having to promote your slave to become the new master. As such, there are two options that have been ommited which might otherwise be used for a typical "read only" slave;
-
-`log-slave-updates`
-
-<blockquote>
-Because updates received by a slave from the master are not logged in the binary log unless --log-slave-updates is specified, the binary log on each slave is empty initially. If for some reason MySQL Master becomes unavailable, you can pick one of the slaves to become the new master.
-
-The reason for running the slave without --log-slave-updates is to prevent slaves from receiving updates twice in case you cause one of the slaves to become the new master	
-</blockquote>
-
-`read-only`
-
-Our setup also assumes no other database (or web client) is connected to our slaves, so we can ignore the read only option. This will also mean we can switch to writing to any of our slaves in the event of a failover as fast as possible (opinions on this welcome, this is currently my best guess!)
 
 ### Restore data to slave
 
