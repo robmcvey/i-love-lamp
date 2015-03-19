@@ -189,9 +189,13 @@ We need to stop replication, promote the slave to become our new master then con
 
 So, on the slave being promoted to master, issue `STOP SLAVE` and `RESET MASTER`.
 
-Our application can now continue operating (i.e. edit your app's database configuration). From here you can then begin the replication configuration as described above, taking a SQL dump with log file/position information and building a new slave machine.
+`STOP SLAVE` kills the slave process, and `RESET MASTER` resets the binlog position and clears any binlog files on the slave (we do this just in case the slave was at one point itself a master).
+
+Our application can now continue operating (i.e. edit your app's database configuration). From here you can then begin the replication configuration as described above, editing the new master's my.cnf file to begin all over again by taking a SQL dump with log file/position information and building a new slave machine.
 
 ### Multiple slaves
+
+This section assumes you have relay-logging enabled, and up-to-date bin-logs are present on all slaves.
 
 If there were multiple slaves running when the old master failed, they too would be in a `error reconnecting` state. Shut down your web application while a new master is configured and replication resumed. 
 
