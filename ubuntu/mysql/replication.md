@@ -107,6 +107,7 @@ We also need to edit our to to configure our slave to behave as such.
 [mysqld]
 
 server-id=101
+replicate-do-db={my-database}
 
 ```
 
