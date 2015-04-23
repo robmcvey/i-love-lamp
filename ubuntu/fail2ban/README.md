@@ -10,9 +10,13 @@
 #
 [Definition]
 
-failregex = ^<HOST> .* "GET /wp-login.php
-            ^<HOST> .* "GET /wp-admin
-            ^<HOST> .* "GET /.+\.php\s.+\" 404
+failregex = ^<HOST> .* "GET /wp-.+" 404
+			^<HOST> .* "GET /.+\.php\s.+" 404
+			^<HOST> .* "GET /.+\.asp\s.+" 404
+			^<HOST> .* "GET /.+\.aspx\s.+" 404
+			^<HOST> .* "GET /admin.+" 404
+			^<HOST> .* "GET /\+\+.+" 404
+	
 ignoreregex =
 ```
 
