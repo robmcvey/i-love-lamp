@@ -2,7 +2,7 @@
 
 ### Configure
 
-```bash
+```
 # Copify custom rules /etc/fail2ban/filter.d/copify.conf
 #
 # Matches e.g.
@@ -50,7 +50,7 @@ Manually Unban <IP> in <JAIL>
 
 e.g.
 
-```bash
+```
 $ sudo fail2ban-client set copify unbanip 217.144.52.94
 ```
 
