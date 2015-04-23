@@ -12,8 +12,8 @@
 
 failregex = ^<HOST> .* "GET /wp-login.php
             ^<HOST> .* "GET /wp-admin
-			            ^<HOST> .* "GET /.+\.php\s.+\" 404
-						ignoreregex =
+            ^<HOST> .* "GET /.+\.php\s.+\" 404
+ignoreregex =
 ```
 
 Enable jail in /etc/fail2ban/jail.conf
