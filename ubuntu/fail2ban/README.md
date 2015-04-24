@@ -58,3 +58,11 @@ e.g.
 $ sudo fail2ban-client set copify unbanip 217.144.52.94
 ```
 
+## Fail2Ban handy rules
+
+```bash
+# wordpress pests
+^<HOST> .* "POST /wp-comments-post.+"
+^<HOST> .* "POST /wp-login.+"
+^<HOST> .* "POST /.+\.php\s.+" 404
+```
