@@ -188,7 +188,7 @@ Last_IO_Error: error reconnecting to master 'replicant@<<master-server-ip>>' - r
 
 We need to stop replication, promote the slave to become our new master then configure our application to begin writing to it.
 
-So, on the slave being promoted to master, issue `STOP SLAVE` and `RESET MASTER`.
+So, on the slave being promoted to master, issue `STOP SLAVE` and `RESET SLAVE`, then `RESET MASTER` to clear all primary bin logs on the new master. (Do not do this on the old, broken master as some data may be salvaged from bin logs).
 
 `STOP SLAVE` kills the slave process, and `RESET MASTER` resets the binlog position and clears any binlog files on the slave (we do this just in case the slave was at one point itself a master).
 
